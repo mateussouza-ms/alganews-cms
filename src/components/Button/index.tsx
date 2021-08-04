@@ -1,16 +1,12 @@
 import { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
 import { Wrapper } from "./styles";
 
-interface ButtonProps
-  extends DetailedHTMLProps<
-    ButtonHTMLAttributes<HTMLButtonElement>,
-    HTMLButtonElement
-  > {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant: "primary" | "danger" | "text";
   label: string;
 }
 
-export function Button({ variant, label, ref, ...props }: ButtonProps) {
+export function Button({ variant, label, ...props }: ButtonProps) {
   return (
     <Wrapper variant={variant} {...props}>
       {label}
