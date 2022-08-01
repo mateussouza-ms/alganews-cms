@@ -1,14 +1,19 @@
-import styled from "styled-components";
 import { transparentize } from "polished";
+import styled from "styled-components";
 
 export const Wrapper = styled.button<{
   variant: "primary" | "danger" | "text";
 }>`
+  display: flex;
+  align-items: center;
+
   padding: 4px 8px;
   border: 1px solid ${(props) => THEME[props.variant].bg};
 
   color: ${(props) => THEME[props.variant].color};
   background: ${(props) => THEME[props.variant].bg};
+
+  cursor: pointer;
 
   &:hover,
   &:focus {
