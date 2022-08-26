@@ -1,5 +1,5 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { CircleChart } from "../components/CircleChart";
+import { CircleChart } from "../app/components/CircleChart";
 
 export default {
   title: "Example/CircleChart",
