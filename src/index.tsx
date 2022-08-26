@@ -2,14 +2,13 @@ import React from "react";
 import ReactDOM from "react-dom";
 import reportWebVitals from "./reportWebVitals";
 
-import { Routes } from "react-router-dom";
-
+import GlobalStyles from "./core/globalStyles";
 import "./core/imports.css";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Routes></Routes>
-    <div></div>
+    <div>Alganews</div>
+    <GlobalStyles />
   </React.StrictMode>,
   document.getElementById("root")
 );
