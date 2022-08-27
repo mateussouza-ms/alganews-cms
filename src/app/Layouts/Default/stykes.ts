@@ -26,6 +26,7 @@ export const Main = styled.main`
 export const Navigation = styled.nav`
   display: flex;
   justify-content: flex-end;
+  padding-right: 32px;
 `;
 
 export const FeaturedContent = styled.section`
