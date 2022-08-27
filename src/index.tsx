@@ -2,13 +2,18 @@ import React from "react";
 import ReactDOM from "react-dom";
 import reportWebVitals from "./reportWebVitals";
 
-import { DefaultLayout } from "./app/Layouts/Default";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HomeView } from "./app/views/HomeView";
 import GlobalStyles from "./core/globalStyles";
 import "./core/imports.css";
 
 ReactDOM.render(
   <React.StrictMode>
-    <DefaultLayout>MAteus</DefaultLayout>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomeView />} />
+      </Routes>
+    </BrowserRouter>
     <GlobalStyles />
   </React.StrictMode>,
   document.getElementById("root")

@@ -1,3 +1,6 @@
+import { Logo } from "../../components/Logo";
+import { NavBar } from "../../components/NavBar";
+import { SessionController } from "../../components/SessionController";
 import {
   Aside,
   FeaturedContent,
@@ -14,11 +17,20 @@ interface DefaultLayoutProps {
 export function DefaultLayout({ children }: DefaultLayoutProps) {
   return (
     <Wrapper>
-      <Header>Header</Header>
+      <Header>
+        <Logo />
+      </Header>
       <Main>
-        <Navigation>NAv</Navigation>
+        <Navigation>
+          <NavBar />
+        </Navigation>
         <FeaturedContent>{children}</FeaturedContent>
-        <Aside>Aside</Aside>
+        <Aside>
+          <SessionController
+            name="Mateus Souza"
+            description="editor há 5 anos"
+          ></SessionController>
+        </Aside>
       </Main>
     </Wrapper>
   );
