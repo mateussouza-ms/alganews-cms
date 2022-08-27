@@ -24,7 +24,7 @@ export const Circle = styled.circle`
 `;
 
 export const CircleBackground = styled.circle.attrs({
-  fill: "#fff",
+  fill: "transparent",
 })``;
 
 export const Percentage = styled.span`
