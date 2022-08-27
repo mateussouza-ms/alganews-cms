@@ -2,12 +2,13 @@ import React from "react";
 import ReactDOM from "react-dom";
 import reportWebVitals from "./reportWebVitals";
 
+import { DefaultLayout } from "./app/Layouts/Default";
 import GlobalStyles from "./core/globalStyles";
 import "./core/imports.css";
 
 ReactDOM.render(
   <React.StrictMode>
-    <div>Alganews</div>
+    <DefaultLayout>MAteus</DefaultLayout>
     <GlobalStyles />
   </React.StrictMode>,
   document.getElementById("root")
