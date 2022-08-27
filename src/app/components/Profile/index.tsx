@@ -6,7 +6,7 @@ interface ProfileProps {
 }
 export function Profile({ name, description }: ProfileProps) {
   return (
-    <Wrapper>
+    <Wrapper tabIndex={0} href={"#"}>
       <img
         src="https://images.unsplash.com/photo-1449322593469-9e30eb4f1a6d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
         alt="Avatar"

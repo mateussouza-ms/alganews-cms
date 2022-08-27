@@ -1,13 +1,14 @@
-import { transparentize } from "polished";
 import styled from "styled-components";
 
 export const Wrapper = styled.a`
   display: flex;
-  gap: 1.5rem;
-  padding: 1rem;
-  border: 1px solid ${transparentize(0.9, "#274060")};
+  gap: 24px;
+  padding: 16px;
+  border: 1px solid #ccc;
   color: #274060;
   box-sizing: content-box;
+  cursor: pointer;
+  transition: box-shadow 0.15s ease;
 
   &:focus,
   &:hover {
