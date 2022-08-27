@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import reportWebVitals from "./reportWebVitals";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { EditorsListView } from "./app/views/EditorsListView";
 import { HomeView } from "./app/views/HomeView";
 import GlobalStyles from "./core/globalStyles";
 import "./core/imports.css";
@@ -12,6 +13,7 @@ ReactDOM.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomeView />} />
+        <Route path="/editores" element={<EditorsListView />} />
       </Routes>
     </BrowserRouter>
     <GlobalStyles />
