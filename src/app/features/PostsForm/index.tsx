@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { Tag } from "react-tag-input";
 import { countWordsInMarkdown } from "../../../core/utils/countWordsInMarkdown";
+import { info } from "../../../core/utils/info";
 import { Button } from "../../components/Button";
 import { ImageUpload } from "../../components/ImageUpload";
 import { Input } from "../../components/Input";
@@ -9,14 +10,21 @@ import { TagInput } from "../../components/TagInput";
 import { WordPriceCounter } from "../../components/WordPriceCounter";
 import { SubmitWrapper, Wrapper } from "./styles";
 
-interface PostsFormProps {}
-
-export function PostForm({}: PostsFormProps) {
+export function PostForm() {
   const [tags, setTags] = useState<Tag[]>([]);
   const [body, setBody] = useState("");
 
+  function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    info({
+      title: "Post salvo com sucesso!",
+      content: "Você acabou de criar um post.",
+    });
+  }
+
   return (
-    <Wrapper>
+    <Wrapper onSubmit={handleFormSubmit}>
       <Input
         label="título"
         placeholder="e.g.: Como fiquei rico aprendendo React"

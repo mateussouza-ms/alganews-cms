@@ -1,3 +1,4 @@
+import { transparentize } from "polished";
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
@@ -9,6 +10,7 @@ export const Wrapper = styled.div`
   gap: 16px;
 
   background: #f3f8fa;
+  border: 1px solid ${transparentize(0.9, "#274060")};
 
   .message {
     display: flex;
