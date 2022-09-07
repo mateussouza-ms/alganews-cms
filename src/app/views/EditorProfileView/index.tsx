@@ -1,13 +1,12 @@
 import { usePageTitle } from "../../../core/hooks/usePageTitle";
-import { EditorsList } from "../../features/EditorsList";
+import { EditorProfile } from "../../features/EditorProfile";
 import { DefaultLayout } from "../../Layouts/Default";
 
-export function EditorsListView() {
-  usePageTitle("Lista de editores");
-
+export function EditorProfileView() {
+  usePageTitle("Perfil do editor");
   return (
     <DefaultLayout>
-      <EditorsList />
+      <EditorProfile />
     </DefaultLayout>
   );
 }

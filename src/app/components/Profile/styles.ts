@@ -1,6 +1,7 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-export const Wrapper = styled.a`
+export const Wrapper = styled(Link)`
   display: flex;
   gap: 24px;
   padding: 16px;
@@ -9,6 +10,7 @@ export const Wrapper = styled.a`
   box-sizing: content-box;
   cursor: pointer;
   transition: box-shadow 0.15s ease;
+  text-decoration: none;
 
   &:focus,
   &:hover {

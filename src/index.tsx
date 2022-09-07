@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import reportWebVitals from "./reportWebVitals";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { EditorProfileView } from "./app/views/EditorProfileView";
 import { EditorsListView } from "./app/views/EditorsListView";
 import { HomeView } from "./app/views/HomeView";
 import { NotFound404View } from "./app/views/NotFound404View";
@@ -16,6 +17,7 @@ ReactDOM.render(
       <Routes>
         <Route path="/" element={<HomeView />} />
         <Route path="/editores" element={<EditorsListView />} />
+        <Route path="/editores/:id" element={<EditorProfileView />} />
         <Route path="/posts/criar" element={<PostCreateView />} />
 
         <Route path="*" element={<NotFound404View />} />
