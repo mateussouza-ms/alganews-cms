@@ -1,4 +1,5 @@
 import { confirm } from "../../../core/utils/confitm";
+import { info } from "../../../core/utils/info";
 import { Button } from "../Button";
 import { Description, Name, Wrapper } from "./styles";
 
@@ -28,6 +29,12 @@ export function SessionController({
         onClick={() =>
           confirm({
             title: "Deseja sair?",
+            onConfirm: () => {
+              info({
+                title: "Você foi deslogado",
+                content: "Você será redirecionado para a página de login.",
+              });
+            },
           })
         }
       />

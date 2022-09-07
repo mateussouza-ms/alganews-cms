@@ -9,22 +9,24 @@ type ConfirmOptions = {
 };
 
 export function confirm({ title, onConfirm, onCancel }: ConfirmOptions) {
-  confirmAlert({
-    overlayClassName: "confirm-overlay",
-    customUI: ({ onClose }) => {
-      return (
-        <Confirm
-          title={title}
-          onConfirm={() => {
-            onConfirm && onConfirm();
-            onClose();
-          }}
-          onCancel={() => {
-            onCancel && onCancel();
-            onClose();
-          }}
-        />
-      );
-    },
-  });
+  setTimeout(() => {
+    confirmAlert({
+      overlayClassName: "confirm-overlay",
+      customUI: ({ onClose }) => {
+        return (
+          <Confirm
+            title={title}
+            onConfirm={() => {
+              onConfirm && onConfirm();
+              onClose();
+            }}
+            onCancel={() => {
+              onCancel && onCancel();
+              onClose();
+            }}
+          />
+        );
+      },
+    });
+  }, 0);
 }

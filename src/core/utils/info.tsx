@@ -8,10 +8,12 @@ type InfoOptions = {
 };
 
 export function info({ title, content }: InfoOptions) {
-  confirmAlert({
-    overlayClassName: "info-overlay",
-    customUI: () => {
-      return <Info title={title} content={content} />;
-    },
-  });
+  setTimeout(() => {
+    confirmAlert({
+      overlayClassName: "info-overlay",
+      customUI: () => {
+        return <Info title={title} content={content} />;
+      },
+    });
+  }, 0);
 }
