@@ -31,7 +31,7 @@ export function Table<T extends Object>({ instance }: TableProps<T>) {
           {headerGroups.map((headerGroup) => (
             <HeadingRow {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
-                <HeadingCell {...column.getHeaderProps}>
+                <HeadingCell {...column.getHeaderProps()}>
                   {column.render("Header")}
                 </HeadingCell>
               ))}
