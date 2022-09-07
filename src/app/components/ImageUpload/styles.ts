@@ -57,6 +57,7 @@ export const Label = styled.label`
   display: flex;
   align-items: center;
   gap: 12px;
+  width: 100%;
 `;
 
 export const Input = styled.input`

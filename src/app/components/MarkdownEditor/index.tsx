@@ -6,11 +6,16 @@ MdEditor.unuse(Plugins.FontUnderline);
 
 const parser = new MarkdownIt();
 
-export function MarkdownEditor() {
+interface MarkdownEditorProps {
+  onChange?: (markdownText: string) => void;
+}
+
+export function MarkdownEditor({ onChange }: MarkdownEditorProps) {
   return (
     <MdEditor
       style={{ height: 300 }}
       renderHTML={(text) => parser.render(text)}
+      onChange={({ text }) => onChange && onChange(text)}
     />
   );
 }

@@ -25,6 +25,8 @@ export const Wrapper = styled.label`
     font-size: 18px;
     font-weight: 500;
 
+    background: transparent;
+
     &::placeholder {
       color: ${transparentize(0.5, "#274060")};
     }

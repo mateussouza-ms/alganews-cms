@@ -13,6 +13,9 @@ export function NavBar() {
       <ListItem>
         <NavLink to="/editores">Editores</NavLink>
       </ListItem>
+      <ListItem>
+        <NavLink to="/posts/criar">Novo post</NavLink>
+      </ListItem>
     </List>
   );
 }
