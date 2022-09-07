@@ -16,7 +16,10 @@ import {
   Wrapper,
 } from "./styles";
 
-export function EditorProfile() {
+interface EditorProfileProps {
+  hidePersonalData?: boolean;
+}
+export function EditorProfile({ hidePersonalData }: EditorProfileProps) {
   return (
     <Wrapper>
       <EditorHeadline>
@@ -51,54 +54,59 @@ export function EditorProfile() {
         <PersonalInfo>
           <FieldDescriptor field="Cidade" value="Vila Velha" />
           <FieldDescriptor field="Estado" value="Espírito Santo" />
-
-          <FieldDescriptor field="Celular" value="+55 27 91234-5678" />
-          <FieldDescriptor
-            field="Email"
-            value="ana.castillo@redacao.algacontent.com"
-          />
-          <FieldDescriptor
-            field="Data de Nascimento"
-            value="26 de Dezembro de 1997 (22 anos)"
-          />
+          {!hidePersonalData && (
+            <>
+              <FieldDescriptor field="Telefone" value="+55 27 91234-5678" />
+              <FieldDescriptor
+                field="Email"
+                value="ana.castillo@redacao.algacontent.com"
+              />
+              <FieldDescriptor
+                field="Data de Nascimento"
+                value="26 de Dezembro de 1997 (22 anos)"
+              />
+            </>
+          )}
         </PersonalInfo>
       </EditorInfo>
 
-      <EditorEarnings>
-        <ValueDescriptor
-          color="default"
-          description="palavras nesta semana"
-          value={20345}
-        />
-        <ValueDescriptor
-          color="default"
-          description="palavras no mês"
-          value={140342}
-        />
-        <ValueDescriptor
-          color="default"
-          description="total de palavras"
-          value={2434423}
-        />
-        <ValueDescriptor
-          color="primary"
-          description="ganhos na semana"
-          value={560322.02}
-          isCurrency
-        />
-        <ValueDescriptor
-          color="primary"
-          description="ganhos no mês"
-          value={560322.02}
-          isCurrency
-        />
-        <ValueDescriptor
-          color="primary"
-          description="ganhos sempre"
-          value={560322.02}
-          isCurrency
-        />
-      </EditorEarnings>
+      {!hidePersonalData && (
+        <EditorEarnings>
+          <ValueDescriptor
+            color="default"
+            description="palavras nesta semana"
+            value={20345}
+          />
+          <ValueDescriptor
+            color="default"
+            description="palavras no mês"
+            value={140342}
+          />
+          <ValueDescriptor
+            color="default"
+            description="total de palavras"
+            value={2434423}
+          />
+          <ValueDescriptor
+            color="primary"
+            description="ganhos na semana"
+            value={560322.02}
+            isCurrency
+          />
+          <ValueDescriptor
+            color="primary"
+            description="ganhos no mês"
+            value={560322.02}
+            isCurrency
+          />
+          <ValueDescriptor
+            color="primary"
+            description="ganhos sempre"
+            value={560322.02}
+            isCurrency
+          />
+        </EditorEarnings>
+      )}
     </Wrapper>
   );
 }

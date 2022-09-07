@@ -6,7 +6,7 @@ export function EditorProfileView() {
   usePageTitle("Perfil do editor");
   return (
     <DefaultLayout>
-      <EditorProfile />
+      <EditorProfile hidePersonalData />
     </DefaultLayout>
   );
 }
