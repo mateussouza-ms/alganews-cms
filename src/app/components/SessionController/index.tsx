@@ -1,3 +1,4 @@
+import { confirm } from "../../../core/utils/confitm";
 import { Button } from "../Button";
 import { Description, Name, Wrapper } from "./styles";
 
@@ -21,7 +22,15 @@ export function SessionController({
 
       <Name>{name}</Name>
       <Description>{description}</Description>
-      <Button label="Logout" variant="danger" />
+      <Button
+        label="Logout"
+        variant="danger"
+        onClick={() =>
+          confirm({
+            title: "Deseja sair?",
+          })
+        }
+      />
     </Wrapper>
   );
 }
