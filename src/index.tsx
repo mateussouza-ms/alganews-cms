@@ -5,6 +5,7 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { EditorsListView } from "./app/views/EditorsListView";
 import { HomeView } from "./app/views/HomeView";
+import { NotFound404View } from "./app/views/NotFound404View";
 import { PostCreateView } from "./app/views/PostCreateView";
 import GlobalStyles from "./core/globalStyles";
 import "./core/imports.css";
@@ -16,6 +17,8 @@ ReactDOM.render(
         <Route path="/" element={<HomeView />} />
         <Route path="/editores" element={<EditorsListView />} />
         <Route path="/posts/criar" element={<PostCreateView />} />
+
+        <Route path="*" element={<NotFound404View />} />
       </Routes>
     </BrowserRouter>
     <GlobalStyles />
