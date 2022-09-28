@@ -1,7 +1,16 @@
+import { useEffect } from "react";
+import { PostService } from "../../../sdk/services/PostService";
 import { Profile } from "../../components/Profile";
 import { Wrapper } from "./styles";
 
 export function EditorsList() {
+  useEffect(() => {
+    const posts = PostService.getAllPosts({
+      sort: ["id", "asc"],
+    });
+    console.log("posts", posts);
+  }, []);
+
   return (
     <Wrapper>
       <Profile
