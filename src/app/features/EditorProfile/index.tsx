@@ -58,6 +58,7 @@ export function EditorProfile({ hidePersonalData }: EditorProfileProps) {
           <Skills>
             {editor.skills?.map((skill) => (
               <ProgressBar
+                key={skill.name}
                 title={skill.name}
                 theme="primary"
                 progress={skill.percentage}

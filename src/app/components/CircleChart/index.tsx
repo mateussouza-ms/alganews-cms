@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import * as StyledCircleChart from "./styles";
 
 interface CircleChartProps {
@@ -58,7 +58,7 @@ export function CircleChart({
         </StyledCircleChart.Svg>
 
         <StyledCircleChart.Percentage style={{ color: THEME }}>
-          {progress}%
+          {Math.ceil(progress)}%
         </StyledCircleChart.Percentage>
       </StyledCircleChart.SvgWrapper>
 
