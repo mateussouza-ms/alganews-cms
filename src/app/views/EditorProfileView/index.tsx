@@ -5,6 +5,7 @@ import { DefaultLayout } from "../../Layouts/Default";
 
 export function EditorProfileView() {
   usePageTitle("Perfil do editor");
+
   return (
     <DefaultLayout>
       <ErrorBoundary>

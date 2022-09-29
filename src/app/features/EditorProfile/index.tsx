@@ -1,3 +1,8 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { getEditorDescription } from "../../../core/utils/getEditorDescription";
+import { User } from "../../../sdk/@types";
+import { UserService } from "../../../sdk/services/UserService";
 import { FieldDescriptor } from "../../components/FieldDescriptor";
 import { ProgressBar } from "../../components/ProgressBar";
 import { ValueDescriptor } from "../../components/ValueDescriptor";
@@ -20,40 +25,50 @@ interface EditorProfileProps {
   hidePersonalData?: boolean;
 }
 export function EditorProfile({ hidePersonalData }: EditorProfileProps) {
+  const [editor, setEditor] = useState<User.EditorDetailed>();
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    if (!id) return;
+
+    UserService.getExistingEditor(Number(id)).then(setEditor);
+  }, [id]);
+
+  if (!editor) {
+    return null;
+  }
+
   return (
     <Wrapper>
       <EditorHeadline>
-        <Avatar
-          src={
-            "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8YXZhdGFyfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80"
-          }
-        />
-        <Name>Mateus Souza</Name>
-        <Description>Editor há 5 anos</Description>
+        <Avatar src={editor.avatarUrls.small} />
+        <Name>{editor.name}</Name>
+        <Description>
+          {getEditorDescription(new Date(editor.createdAt))}
+        </Description>
       </EditorHeadline>
 
       <Divisor />
 
       <EditorInfo>
         <EditorResume>
-          <Biography>
-            Mateus Souza é esBiographyecialista em recrutamento de
-            desenvolvedores e ama escrever dicas para ajudar os devs a
-            encontrarem a vaga certa para elas. Atualmente tem uma empresa de
-            Recruitment e é redator no alga content
-          </Biography>
+          <Biography>{editor.bio}</Biography>
 
           <Skills>
-            <ProgressBar title="coaching" theme="primary" progress={70} />
-            <ProgressBar title="javascript" theme="primary" progress={55} />
-            <ProgressBar title="node" theme="primary" progress={55} />
-            <ProgressBar title="php" theme="primary" progress={55} />
+            {editor.skills?.map((skill) => (
+              <ProgressBar
+                title={skill.name}
+                theme="primary"
+                progress={skill.percentage}
+              />
+            ))}
           </Skills>
         </EditorResume>
 
         <PersonalInfo>
-          <FieldDescriptor field="Cidade" value="Vila Velha" />
-          <FieldDescriptor field="Estado" value="Espírito Santo" />
+          <FieldDescriptor field="Cidade" value={editor.location.city} />
+          <FieldDescriptor field="Estado" value={editor.location.state} />
           {!hidePersonalData && (
             <>
               <FieldDescriptor field="Telefone" value="+55 27 91234-5678" />
