@@ -15,6 +15,7 @@ export function PostForm() {
   const [tags, setTags] = useState<Tag[]>([]);
   const [body, setBody] = useState("");
   const [title, setTitle] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
 
   async function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -22,7 +23,7 @@ export function PostForm() {
     const insertedPost = await PostService.insertNewPost({
       body,
       title,
-      imageUrl: "",
+      imageUrl,
       tags: tags.map((tag) => tag.text),
     });
 
@@ -41,7 +42,7 @@ export function PostForm() {
         onChange={(e) => setTitle(e.target.value)}
       />
 
-      <ImageUpload label="Thumbnail do post" />
+      <ImageUpload label="Thumbnail do post" onUpload={setImageUrl} />
 
       <MarkdownEditor onChange={setBody} />
 

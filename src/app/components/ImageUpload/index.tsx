@@ -7,9 +7,10 @@ import * as StyledImageUpload from "./styles";
 
 interface ImageUploadProps {
   label: string;
+  onUpload: (imageUrl: string) => void;
 }
 
-export function ImageUpload({ label }: ImageUploadProps) {
+export function ImageUpload({ label, onUpload }: ImageUploadProps) {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
@@ -22,7 +23,7 @@ export function ImageUpload({ label }: ImageUploadProps) {
         setImagePreview(String(ev.target?.result));
 
         const imageUrl = await FileService.upload(file);
-        console.log("imageUrl", imageUrl);
+        onUpload(imageUrl);
       });
 
       reader.readAsDataURL(file);
