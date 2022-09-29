@@ -38,7 +38,7 @@ const options: Chart.ChartOptions = {
   },
 };
 
-interface ChartProps {
+export interface ChartProps {
   data: Chart.ChartData;
   title: string;
 }
