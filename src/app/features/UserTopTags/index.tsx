@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
+import { withBoundary } from "../../../core/hoc/withBoundary";
 import { Metric } from "../../../sdk/@types";
 import { MetricService } from "../../../sdk/services/MetricService";
 import { CircleChart } from "../../components/CircleChart";
 import { Wrapper } from "./styles";
 
-export function UserTopTags() {
+export function UserTopTagsComponent() {
   const [top3Tags, setTop3Tags] = useState<Metric.EditorTagRatio>([]);
   const [error, setError] = useState<Error>();
 
@@ -32,3 +33,8 @@ export function UserTopTags() {
     </Wrapper>
   );
 }
+
+export const UserTopTags = withBoundary(
+  UserTopTagsComponent,
+  "tags mais utilizadas"
+);

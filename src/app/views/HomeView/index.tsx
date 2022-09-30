@@ -1,5 +1,4 @@
 import { usePageTitle } from "../../../core/hooks/usePageTitle";
-import { ErrorBoundary } from "../../components/ErrorBoundary";
 import { PostsList } from "../../features/PostsList";
 import { UserEarnings } from "../../features/UserEarnings";
 import { UserPerformance } from "../../features/UserPerformance";
@@ -19,22 +18,14 @@ export function HomeView() {
           gap: "32px",
         }}
       >
-        <ErrorBoundary component="tags mais utilizadas">
-          <UserTopTags />
-        </ErrorBoundary>
+        <UserTopTags />
 
-        <ErrorBoundary component="ganhos">
-          <UserEarnings />
-        </ErrorBoundary>
+        <UserEarnings />
       </div>
 
-      <ErrorBoundary component="performance">
-        <UserPerformance />
-      </ErrorBoundary>
+      <UserPerformance />
 
-      <ErrorBoundary component="lista de posts">
-        <PostsList />
-      </ErrorBoundary>
+      <PostsList />
     </DefaultLayout>
   );
 }

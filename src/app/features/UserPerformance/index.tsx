@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
+import { withBoundary } from "../../../core/hoc/withBoundary";
 import { transformEditorMonthlyEarningsIntoChartJs } from "../../../core/utils/transformEditorMonthlyEarningsIntoChartJs";
 import { MetricService } from "../../../sdk/services/MetricService";
 import { Chart, ChartProps } from "../../components/Chart";
 
-export function UserPerformance() {
+function UserPerformanceComponent() {
   const [editorEarnings, setEditorEarnings] = useState<ChartProps["data"]>();
   const [error, setError] = useState<Error>();
 
@@ -29,3 +30,8 @@ export function UserPerformance() {
     />
   );
 }
+
+export const UserPerformance = withBoundary(
+  UserPerformanceComponent,
+  "performance"
+);

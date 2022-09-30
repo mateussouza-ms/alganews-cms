@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
+import { withBoundary } from "../../../core/hoc/withBoundary";
 import { User } from "../../../sdk/@types";
 import { UserService } from "../../../sdk/services/UserService";
 import { ValueDescriptor } from "../../components/ValueDescriptor";
 import { Wrapper } from "./styles";
 
-export function UserEarnings() {
+export function UserEarningsComponent() {
   const [user, setUser] = useState<User.Detailed>();
   const [error, setError] = useState<Error>();
 
@@ -50,3 +51,5 @@ export function UserEarnings() {
     </Wrapper>
   );
 }
+
+export const UserEarnings = withBoundary(UserEarningsComponent, "ganhos");
