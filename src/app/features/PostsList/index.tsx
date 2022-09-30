@@ -1,73 +1,16 @@
 import { mdiOpenInNew } from "@mdi/js";
 import Icon from "@mdi/react";
-import { useMemo } from "react";
+import { format } from "date-fns";
+import { useEffect, useMemo, useState } from "react";
 import { Column, useTable } from "react-table";
+import { Post } from "../../../sdk/@types";
+import { PostService } from "../../../sdk/services/PostService";
 import { Table } from "../../components/Table";
 
-type Post = {
-  id: number;
-  title: string;
-  views: number;
-  author: {
-    name: string;
-    avatar: string;
-  };
-  conversions: {
-    thoushands: number;
-    percentage: number;
-  };
-};
-
 export function PostsList() {
-  const data = useMemo<Post[]>(
-    () => [
-      {
-        author: {
-          name: "Daniel Bonifacio",
-          avatar:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNf0vAZLggJoZxGKpfOa3EBClHkwQmmvv9Lg&usqp=CAU",
-        },
-        id: 1,
-        conversions: {
-          percentage: 64.35,
-          thoushands: 607,
-        },
-        title: "Como dobrei meu salário aprendendo somente React",
-        views: 985415,
-      },
-      {
-        author: {
-          name: "Daniel Bonifacio",
-          avatar:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNf0vAZLggJoZxGKpfOa3EBClHkwQmmvv9Lg&usqp=CAU",
-        },
-        id: 2,
-        conversions: {
-          percentage: 64.35,
-          thoushands: 607,
-        },
-        title: "React.js vs. React Native: a REAL diferença entre os dois",
-        views: 985415,
-      },
-      {
-        author: {
-          name: "Daniel Bonifacio",
-          avatar:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNf0vAZLggJoZxGKpfOa3EBClHkwQmmvv9Lg&usqp=CAU",
-        },
-        id: 3,
-        conversions: {
-          percentage: 95.35,
-          thoushands: 845,
-        },
-        title: "Como dobrei meu salário aprendendo somente React",
-        views: 985415,
-      },
-    ],
-    []
-  );
+  const [posts, setPosts] = useState<Post.Paginated>();
 
-  const columns = useMemo<Column<Post>[]>(
+  const columns = useMemo<Column<Post.Summary>[]>(
     () => [
       {
         Header: "",
@@ -75,7 +18,7 @@ export function PostsList() {
         Cell: () => <Icon path={mdiOpenInNew} size="14px" color="#0099ff" />,
       },
       {
-        Header: () => <div style={{ textAlign: "left" }}>Artigo</div>,
+        Header: () => <div style={{ textAlign: "left" }}>Título</div>,
         accessor: "title",
         Cell: (props) => (
           <div
@@ -89,16 +32,17 @@ export function PostsList() {
             <img
               width={24}
               height={24}
-              src={props.row.original.author.avatar}
-              alt={props.row.original.author.name}
+              src={props.row.original.editor.avatarUrls.small}
+              alt={props.row.original.editor.name}
+              title={props.row.original.editor.name}
             />
             {props.value}
           </div>
         ),
       },
       {
-        Header: () => <div style={{ textAlign: "right" }}>Views</div>,
-        accessor: "views",
+        Header: () => <div style={{ textAlign: "right" }}>Criação</div>,
+        accessor: "createdAt",
         Cell: (props) => (
           <div
             style={{
@@ -107,40 +51,39 @@ export function PostsList() {
               fontWeight: 500,
             }}
           >
-            {props.value.toLocaleString("pt-br")}
+            {format(new Date(props.value), "dd/MM/yyyy")}
           </div>
         ),
       },
       {
-        Header: () => <div style={{ textAlign: "left" }}>Conversões</div>,
-        accessor: "conversions",
+        Header: () => (
+          <div style={{ textAlign: "right" }}>Última atualização</div>
+        ),
+        accessor: "updatedAt",
         Cell: (props) => (
           <div
             style={{
-              display: "flex",
-              gap: 8,
-              textAlign: "left",
+              textAlign: "right",
               fontFamily: "'Roboto Mono', monospace",
               fontWeight: 500,
             }}
           >
-            <span>{props.value.thoushands}k</span>
-            <span style={{ color: "#0099ff" }}>
-              ({props.value.percentage}%)
-            </span>
+            {format(new Date(props.value), "dd/MM/yyyy")}
           </div>
         ),
       },
+
       {
         id: Math.random().toString(),
-        Header: () => <div style={{ textAlign: "right" }}>Ações</div>,
-        Cell: () => (
+        Header: () => <div style={{ textAlign: "right" }}>Status</div>,
+        accessor: "published",
+        Cell: (props) => (
           <div
             style={{
               textAlign: "right",
             }}
           >
-            todo: actions
+            {props.value ? "Publicado" : "Privado"}
           </div>
         ),
       },
@@ -148,7 +91,19 @@ export function PostsList() {
     []
   );
 
-  const instance = useTable<Post>({ data, columns });
+  const instance = useTable<Post.Summary>({
+    data: posts?.content || [],
+    columns,
+  });
 
-  return <Table<Post> instance={instance} />;
+  useEffect(() => {
+    PostService.getAllPosts({
+      page: 0,
+      size: 7,
+      showAll: true,
+      sort: ["createdAt", "desc"],
+    }).then(setPosts);
+  }, []);
+
+  return <Table<Post.Summary> instance={instance} />;
 }
