@@ -6,10 +6,17 @@ import { Wrapper } from "./styles";
 
 export function UserEarnings() {
   const [user, setUser] = useState<User.Detailed>();
+  const [error, setError] = useState<Error>();
 
   useEffect(() => {
-    UserService.getDetailedUser(7).then(setUser);
+    UserService.getDetailedUser(7)
+      .then(setUser)
+      .catch((err) => setError(new Error(err.message)));
   }, []);
+
+  if (error) {
+    throw error;
+  }
 
   if (!user) {
     return null;

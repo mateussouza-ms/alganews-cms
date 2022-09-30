@@ -9,6 +9,7 @@ import { Table } from "../../components/Table";
 
 export function PostsList() {
   const [posts, setPosts] = useState<Post.Paginated>();
+  const [error, setError] = useState<Error>();
 
   const columns = useMemo<Column<Post.Summary>[]>(
     () => [
@@ -102,8 +103,14 @@ export function PostsList() {
       size: 7,
       showAll: true,
       sort: ["createdAt", "desc"],
-    }).then(setPosts);
+    })
+      .then(setPosts)
+      .catch((err) => setError(new Error(err.message)));
   }, []);
+
+  if (error) {
+    throw error;
+  }
 
   return <Table<Post.Summary> instance={instance} />;
 }

@@ -6,10 +6,17 @@ import { Wrapper } from "./styles";
 
 export function UserTopTags() {
   const [top3Tags, setTop3Tags] = useState<Metric.EditorTagRatio>([]);
+  const [error, setError] = useState<Error>();
 
   useEffect(() => {
-    MetricService.getTop3Tags().then(setTop3Tags);
+    MetricService.getTop3Tags()
+      .then(setTop3Tags)
+      .catch((err) => setError(new Error(err.message)));
   }, []);
+
+  if (error) {
+    throw error;
+  }
 
   return (
     <Wrapper>
