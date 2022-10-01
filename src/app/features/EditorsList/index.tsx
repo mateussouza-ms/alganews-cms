@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
 import { getEditorDescription } from "../../../core/utils/getEditorDescription";
 import { User } from "../../../sdk/@types";
 import { UserService } from "../../../sdk/services/UserService";
 import { Profile } from "../../components/Profile";
+
 import { Wrapper } from "./styles";
 
 export function EditorsList() {
@@ -11,6 +15,16 @@ export function EditorsList() {
   useEffect(() => {
     UserService.getAllEditors().then(setEditors);
   }, []);
+
+  if (!editors.length) {
+    return (
+      <Wrapper>
+        {Array.from(new Array(10)).map((_, i) => (
+          <Skeleton key={i} height={82} width={328} />
+        ))}
+      </Wrapper>
+    );
+  }
 
   return (
     <Wrapper>

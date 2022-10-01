@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
 import { withBoundary } from "../../../core/hoc/withBoundary";
 import { Metric } from "../../../sdk/@types";
 import { MetricService } from "../../../sdk/services/MetricService";
 import { CircleChart } from "../../components/CircleChart";
+
 import { Wrapper } from "./styles";
 
 export function UserTopTagsComponent() {
@@ -17,6 +21,16 @@ export function UserTopTagsComponent() {
 
   if (error) {
     throw error;
+  }
+
+  if (!top3Tags.length) {
+    return (
+      <Wrapper>
+        <Skeleton height={88} width={88} circle />
+        <Skeleton height={88} width={88} circle />
+        <Skeleton height={88} width={88} circle />
+      </Wrapper>
+    );
   }
 
   return (

@@ -2,7 +2,10 @@ import { mdiOpenInNew } from "@mdi/js";
 import Icon from "@mdi/react";
 import { format } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import { Column, useTable } from "react-table";
+
 import { withBoundary } from "../../../core/hoc/withBoundary";
 import { Post } from "../../../sdk/@types";
 import { PostService } from "../../../sdk/services/PostService";
@@ -111,6 +114,17 @@ export function PostsListComponent() {
 
   if (error) {
     throw error;
+  }
+
+  if (!posts) {
+    return (
+      <div>
+        <Skeleton height={32} />
+        {Array.from(new Array(7)).map((_, i) => (
+          <Skeleton key={i} height={40} />
+        ))}
+      </div>
+    );
   }
 
   return <Table<Post.Summary> instance={instance} />;

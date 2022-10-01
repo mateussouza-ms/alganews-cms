@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
 import { withBoundary } from "../../../core/hoc/withBoundary";
 import { User } from "../../../sdk/@types";
 import { UserService } from "../../../sdk/services/UserService";
 import { ValueDescriptor } from "../../components/ValueDescriptor";
+
 import { Wrapper } from "./styles";
 
 export function UserEarningsComponent() {
@@ -20,7 +24,14 @@ export function UserEarningsComponent() {
   }
 
   if (!user) {
-    return null;
+    return (
+      <Wrapper style={{ height: 123 }}>
+        <Skeleton height={40} width={150} />
+        <Skeleton height={40} width={150} />
+        <Skeleton height={40} width={150} />
+        <Skeleton height={40} width={150} />
+      </Wrapper>
+    );
   }
 
   return (
