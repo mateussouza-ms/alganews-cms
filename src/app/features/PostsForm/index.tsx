@@ -6,6 +6,7 @@ import { PostService } from "../../../sdk/services/PostService";
 import { Button } from "../../components/Button";
 import { ImageUpload } from "../../components/ImageUpload";
 import { Input } from "../../components/Input";
+import { Loading } from "../../components/Loading";
 import { MarkdownEditor } from "../../components/MarkdownEditor";
 import { TagInput } from "../../components/TagInput";
 import { WordPriceCounter } from "../../components/WordPriceCounter";
@@ -16,25 +17,35 @@ export function PostForm() {
   const [body, setBody] = useState("");
   const [title, setTitle] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   async function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setIsSubmitting(true);
 
-    const insertedPost = await PostService.insertNewPost({
-      body,
-      title,
-      imageUrl,
-      tags: tags.map((tag) => tag.text),
-    });
+    try {
+      const insertedPost = await PostService.insertNewPost({
+        body,
+        title,
+        imageUrl,
+        tags: tags.map((tag) => tag.text),
+      });
 
-    info({
-      title: "Post salvo com sucesso!",
-      content: "Você acabou de criar um post. ID: " + insertedPost.id,
-    });
+      info({
+        title: "Post salvo com sucesso!",
+        content: "Você acabou de criar um post. ID: " + insertedPost.id,
+      });
+    } catch (error) {
+      throw error;
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
     <Wrapper onSubmit={handleFormSubmit}>
+      <Loading show={isSubmitting} />
+
       <Input
         label="título"
         placeholder="e.g.: Como fiquei rico aprendendo React"
