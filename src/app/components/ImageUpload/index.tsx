@@ -3,6 +3,7 @@ import Icon from "@mdi/react";
 import { ChangeEvent, useState } from "react";
 import { FileService } from "../../../sdk/services/FileService";
 import { Button } from "../Button";
+import { Loading } from "../Loading";
 import * as StyledImageUpload from "./styles";
 
 interface ImageUploadProps {
@@ -12,6 +13,7 @@ interface ImageUploadProps {
 
 export function ImageUpload({ label, onUpload }: ImageUploadProps) {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files![0];
@@ -20,10 +22,15 @@ export function ImageUpload({ label, onUpload }: ImageUploadProps) {
       const reader = new FileReader();
 
       reader.addEventListener("load", async (ev) => {
-        setImagePreview(String(ev.target?.result));
+        setIsUploadingImage(true);
+        try {
+          setImagePreview(String(ev.target?.result));
 
-        const imageUrl = await FileService.upload(file);
-        onUpload(imageUrl);
+          const imageUrl = await FileService.upload(file);
+          onUpload(imageUrl);
+        } finally {
+          setIsUploadingImage(false);
+        }
       });
 
       reader.readAsDataURL(file);
@@ -33,6 +40,8 @@ export function ImageUpload({ label, onUpload }: ImageUploadProps) {
   if (imagePreview) {
     return (
       <StyledImageUpload.ImagePreviewWrapper>
+        <Loading show={isUploadingImage} />
+
         <StyledImageUpload.ImagePreview preview={imagePreview}>
           <Button
             variant="primary"

@@ -7,10 +7,13 @@ export const Wrapper = styled.div`
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
   z-index: 88;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  animation: 0.25s slidein ease;
 
   .lds-ring {
     display: inline-block;
@@ -45,6 +48,18 @@ export const Wrapper = styled.div`
     }
     100% {
       transform: rotate(360deg);
+    }
+  }
+
+  @keyframes slidein {
+    from {
+      background: rgba(0, 0, 0, 0.7);
+      opacity: 0;
+    }
+
+    to {
+      background: rgba(0, 0, 0, 0.7);
+      opacity: 1;
     }
   }
 `;
