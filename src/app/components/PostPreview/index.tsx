@@ -1,35 +1,48 @@
+import { useEffect, useState } from "react";
 import { withBoundary } from "../../../core/hoc/withBoundary";
+import { Post } from "../../../sdk/@types";
 import { Button } from "../Button";
 import { MarkdownEditor } from "../MarkdownEditor";
 
+import { PostService } from "../../../sdk/services/PostService";
+import { Loading } from "../Loading";
 import { Actions, Content, Heading, Image, Title, Wrapper } from "./styles";
 
 interface PostPreviewProps {
   postId: number;
 }
 
-function PostPreview(props: PostPreviewProps) {
+function PostPreview({ postId }: PostPreviewProps) {
+  const [post, setPost] = useState<Post.Detailed>();
+  const [isLoadingPosts, setIsLoadingPosts] = useState(false);
+
+  useEffect(() => {
+    setIsLoadingPosts(true);
+    PostService.getExistingPost(postId)
+      .then(setPost)
+      .finally(() => setIsLoadingPosts(false));
+  }, [postId]);
+
+  if (isLoadingPosts) {
+    return <Loading show />;
+  }
+
+  if (!post) {
+    return null;
+  }
+
   return (
     <Wrapper>
       <Heading>
-        <Title>{"Como fiquei rico aprendendo React"}</Title>
+        <Title>{post.title}</Title>
         <Actions>
           <Button variant={"danger"} label={"Publicar"} />
           <Button variant={"primary"} label={"Editar"} />
         </Actions>
       </Heading>
-      <Image
-        src={
-          "https://images.unsplash.com/photo-1499343628900-545067aef5a3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"
-        }
-      />
+      <Image src={post.imageUrls.medium} />
       <Content>
-        <MarkdownEditor
-          readOnly
-          value={
-            "Olá mundo!\n- Esta é\n- uma lista\n- uma lista\n- uma lista\n- uma lista\n"
-          }
-        />
+        <MarkdownEditor readOnly value={post.body} />
       </Content>
     </Wrapper>
   );
