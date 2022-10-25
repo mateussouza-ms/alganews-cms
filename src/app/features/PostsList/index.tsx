@@ -4,16 +4,21 @@ import { format } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { Column, useTable } from "react-table";
+import { Column, usePagination, useTable } from "react-table";
 
 import { withBoundary } from "../../../core/hoc/withBoundary";
+import modal from "../../../core/utils/modal";
 import { Post } from "../../../sdk/@types";
 import { PostService } from "../../../sdk/services/PostService";
+import { Loading } from "../../components/Loading";
+import PostPreview from "../../components/PostPreview";
 import { Table } from "../../components/Table";
 
 export function PostsListComponent() {
   const [posts, setPosts] = useState<Post.Paginated>();
   const [error, setError] = useState<Error>();
+  const [page, setPage] = useState(0);
+  const [isLoadingData, setIsLoadingData] = useState(false);
 
   const columns = useMemo<Column<Post.Summary>[]>(
     () => [
@@ -41,7 +46,17 @@ export function PostsListComponent() {
               alt={props.row.original.editor.name}
               title={props.row.original.editor.name}
             />
-            {props.value}
+            <a
+              href={`/posts/${props.row.original.id}`}
+              onClick={(e) => {
+                e.preventDefault();
+                modal({
+                  children: <PostPreview postId={props.row.original.id} />,
+                });
+              }}
+            >
+              {props.value}
+            </a>
           </div>
         ),
       },
@@ -96,21 +111,29 @@ export function PostsListComponent() {
     []
   );
 
-  const instance = useTable<Post.Summary>({
-    data: posts?.content || [],
-    columns,
-  });
+  const instance = useTable<Post.Summary>(
+    {
+      data: posts?.content || [],
+      columns,
+      manualPagination: true,
+      initialState: { pageIndex: 0 },
+      pageCount: posts?.totalPages,
+    },
+    usePagination
+  );
 
   useEffect(() => {
+    setIsLoadingData(true);
     PostService.getAllPosts({
-      page: 0,
+      page: page,
       size: 7,
       showAll: true,
       sort: ["createdAt", "desc"],
     })
       .then(setPosts)
-      .catch((err) => setError(new Error(err.message)));
-  }, []);
+      .catch((err) => setError(new Error(err.message)))
+      .finally(() => setIsLoadingData(false));
+  }, [page]);
 
   if (error) {
     throw error;
@@ -127,7 +150,12 @@ export function PostsListComponent() {
     );
   }
 
-  return <Table<Post.Summary> instance={instance} />;
+  return (
+    <>
+      <Loading show={isLoadingData} />
+      <Table<Post.Summary> instance={instance} onPaginate={setPage} />
+    </>
+  );
 }
 
 export const PostsList = withBoundary(PostsListComponent, "lista de posts");

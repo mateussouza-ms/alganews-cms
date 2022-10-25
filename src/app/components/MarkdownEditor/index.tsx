@@ -8,14 +8,31 @@ const parser = new MarkdownIt();
 
 interface MarkdownEditorProps {
   onChange?: (markdownText: string) => void;
+  value?: string;
+  readOnly?: boolean;
 }
 
-export function MarkdownEditor({ onChange }: MarkdownEditorProps) {
+export function MarkdownEditor({
+  onChange,
+  value,
+  readOnly,
+}: MarkdownEditorProps) {
   return (
     <MdEditor
-      style={{ height: 300 }}
+      readOnly={readOnly}
+      style={{ height: readOnly ? "auto" : 300 }}
+      value={value}
       renderHTML={(text) => parser.render(text)}
       onChange={({ text }) => onChange && onChange(text)}
+      view={
+        readOnly
+          ? {
+              menu: false,
+              md: false,
+              html: true,
+            }
+          : undefined
+      }
     />
   );
 }
