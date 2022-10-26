@@ -1,6 +1,6 @@
 import { mdiDelete, mdiUpload } from "@mdi/js";
 import Icon from "@mdi/react";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { FileService } from "../../../sdk/services/FileService";
 import { Button } from "../Button";
 import { Loading } from "../Loading";
@@ -9,9 +9,10 @@ import * as StyledImageUpload from "./styles";
 interface ImageUploadProps {
   label: string;
   onUpload: (imageUrl: string) => void;
+  preview?: string;
 }
 
-export function ImageUpload({ label, onUpload }: ImageUploadProps) {
+export function ImageUpload({ label, onUpload, preview }: ImageUploadProps) {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isUploadingImage, setIsUploadingImage] = useState(false);
 
@@ -36,6 +37,12 @@ export function ImageUpload({ label, onUpload }: ImageUploadProps) {
       reader.readAsDataURL(file);
     }
   }
+
+  useEffect(() => {
+    if (preview) {
+      setImagePreview(preview);
+    }
+  }, [preview]);
 
   if (imagePreview) {
     return (

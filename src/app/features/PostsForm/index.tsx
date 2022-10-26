@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Tag } from "react-tag-input";
 import { countWordsInMarkdown } from "../../../core/utils/countWordsInMarkdown";
@@ -13,7 +13,11 @@ import { TagInput } from "../../components/TagInput";
 import { WordPriceCounter } from "../../components/WordPriceCounter";
 import { SubmitWrapper, Wrapper } from "./styles";
 
-export function PostForm() {
+interface PostFormProps {
+  postId?: number;
+}
+
+export function PostForm({ postId }: PostFormProps) {
   const [tags, setTags] = useState<Tag[]>([]);
   const [body, setBody] = useState("");
   const [title, setTitle] = useState("");
@@ -23,24 +27,64 @@ export function PostForm() {
   const navigate = useNavigate();
 
   async function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setIsSubmitting(true);
+    try {
+      e.preventDefault();
+      setIsSubmitting(true);
 
-    const insertedPost = await PostService.insertNewPost({
+      if (postId) {
+        await updateExistingPost(postId);
+      } else {
+        await createNewPost();
+      }
+
+      navigate("/");
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
+  async function createNewPost() {
+    await PostService.insertNewPost({
       body,
       title,
       imageUrl,
       tags: tags.map((tag) => tag.text),
     });
-    setIsSubmitting(false);
 
     info({
       title: "Post salvo com sucesso!",
-      content: "Você acabou de criar um post. ID: " + insertedPost.id,
+      content: "Você atualizou o post com sucesso.",
+    });
+  }
+
+  async function updateExistingPost(postId: number) {
+    await PostService.updateExistingPost(postId, {
+      body,
+      title,
+      imageUrl,
+      tags: tags.map((tag) => tag.text),
     });
 
-    navigate("/");
+    info({
+      title: "Post atualizado!",
+      content: "Você acabou de atualizar o post",
+    });
   }
+
+  function fetchPost(postId: number) {
+    PostService.getExistingPost(postId).then((post) => {
+      setTitle(post.title);
+      setImageUrl(post.imageUrls.default);
+      setBody(post.body);
+      setTags(post.tags.map((tag) => ({ id: tag, text: tag })));
+    });
+  }
+
+  useEffect(() => {
+    if (postId) {
+      fetchPost(postId);
+    }
+  }, [postId]);
 
   return (
     <Wrapper onSubmit={handleFormSubmit}>
@@ -53,9 +97,13 @@ export function PostForm() {
         onChange={(e) => setTitle(e.target.value)}
       />
 
-      <ImageUpload label="Thumbnail do post" onUpload={setImageUrl} />
+      <ImageUpload
+        label="Thumbnail do post"
+        onUpload={setImageUrl}
+        preview={imageUrl}
+      />
 
-      <MarkdownEditor onChange={setBody} />
+      <MarkdownEditor onChange={setBody} value={body} />
 
       <TagInput
         tags={tags}
