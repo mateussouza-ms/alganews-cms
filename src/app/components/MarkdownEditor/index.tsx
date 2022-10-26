@@ -1,6 +1,7 @@
 import MarkdownIt from "markdown-it";
 import MdEditor, { Plugins } from "react-markdown-editor-lite";
 import "react-markdown-editor-lite/lib/index.css";
+import { FileService } from "../../../sdk/services/FileService";
 
 MdEditor.unuse(Plugins.FontUnderline);
 
@@ -34,6 +35,10 @@ export function MarkdownEditor({
   value,
   readOnly,
 }: MarkdownEditorProps) {
+  async function onImageUpload(file: File) {
+    return FileService.upload(file);
+  }
+
   return (
     <MdEditor
       readOnly={readOnly}
@@ -41,6 +46,12 @@ export function MarkdownEditor({
       value={value}
       renderHTML={(text) => parser.render(text)}
       onChange={({ text }) => onChange && onChange(text)}
+      onImageUpload={onImageUpload}
+      config={{
+        view: {
+          html: false,
+        },
+      }}
       view={
         readOnly
           ? {
