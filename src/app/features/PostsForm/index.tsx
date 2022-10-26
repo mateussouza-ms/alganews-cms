@@ -1,4 +1,5 @@
 import { FormEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Tag } from "react-tag-input";
 import { countWordsInMarkdown } from "../../../core/utils/countWordsInMarkdown";
 import { info } from "../../../core/utils/info";
@@ -19,27 +20,26 @@ export function PostForm() {
   const [imageUrl, setImageUrl] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const navigate = useNavigate();
+
   async function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setIsSubmitting(true);
 
-    try {
-      const insertedPost = await PostService.insertNewPost({
-        body,
-        title,
-        imageUrl,
-        tags: tags.map((tag) => tag.text),
-      });
+    const insertedPost = await PostService.insertNewPost({
+      body,
+      title,
+      imageUrl,
+      tags: tags.map((tag) => tag.text),
+    });
+    setIsSubmitting(false);
 
-      info({
-        title: "Post salvo com sucesso!",
-        content: "Você acabou de criar um post. ID: " + insertedPost.id,
-      });
-    } catch (error) {
-      throw error;
-    } finally {
-      setIsSubmitting(false);
-    }
+    info({
+      title: "Post salvo com sucesso!",
+      content: "Você acabou de criar um post. ID: " + insertedPost.id,
+    });
+
+    navigate("/");
   }
 
   return (
@@ -69,7 +69,12 @@ export function PostForm() {
           pricePerWord={0.1}
           wordsCount={countWordsInMarkdown(body)}
         />
-        <Button variant="primary" label="Salvar post" type="submit" />
+        <Button
+          variant="primary"
+          label="Salvar post"
+          type="submit"
+          disabled={!title || !imageUrl || !body || !tags.length}
+        />
       </SubmitWrapper>
     </Wrapper>
   );
