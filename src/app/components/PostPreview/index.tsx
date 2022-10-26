@@ -36,8 +36,16 @@ function PostPreview({ postId }: PostPreviewProps) {
       <Heading>
         <Title>{post.title}</Title>
         <Actions>
-          <Button variant={"danger"} label={"Publicar"} />
-          <Button variant={"primary"} label={"Editar"} />
+          <Button
+            variant={"danger"}
+            label={"Publicar"}
+            disabled={post.published}
+          />
+          <Button
+            variant={"primary"}
+            label={"Editar"}
+            disabled={post.published}
+          />
         </Actions>
       </Heading>
       <Image src={post.imageUrls.medium} />

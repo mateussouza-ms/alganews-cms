@@ -24,6 +24,7 @@ export const Wrapper = styled.button<{
     color: ${(props) => THEME[props.variant].disabled.color};
     background: ${(props) => THEME[props.variant].disabled.bg};
     border-color: transparent;
+    opacity: 0.5;
 
     pointer-events: none;
   }
