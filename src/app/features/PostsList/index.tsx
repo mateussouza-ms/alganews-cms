@@ -12,6 +12,7 @@ import { Post } from "../../../sdk/@types";
 import { PostService } from "../../../sdk/services/PostService";
 import { Loading } from "../../components/Loading";
 import PostPreview from "../../components/PostPreview";
+import { PostTitleLink } from "../../components/PostTitleLink";
 import { Table } from "../../components/Table";
 
 export function PostsListComponent() {
@@ -37,6 +38,7 @@ export function PostsListComponent() {
               display: "flex",
               alignItems: "center",
               gap: 8,
+              maxWidth: 280,
             }}
           >
             <img
@@ -46,7 +48,8 @@ export function PostsListComponent() {
               alt={props.row.original.editor.name}
               title={props.row.original.editor.name}
             />
-            <a
+            <PostTitleLink
+              title={props.value}
               href={`/posts/${props.row.original.id}`}
               onClick={(e) => {
                 e.preventDefault();
@@ -56,7 +59,7 @@ export function PostsListComponent() {
               }}
             >
               {props.value}
-            </a>
+            </PostTitleLink>
           </div>
         ),
       },
