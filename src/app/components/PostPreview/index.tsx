@@ -70,6 +70,9 @@ function PostPreview({ postId }: PostPreviewProps) {
             variant={"primary"}
             label={"Editar"}
             disabled={post.published}
+            onClick={() =>
+              (window.location.pathname = `/posts/editar/${postId}`)
+            }
           />
         </Actions>
       </Heading>
