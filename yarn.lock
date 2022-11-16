@@ -10977,10 +10977,10 @@ move-concurrently@^1.0.1:
     rimraf "^2.5.4"
     run-queue "^1.0.3"
 
-ms-alganews-sdk@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/ms-alganews-sdk/-/ms-alganews-sdk-1.1.0.tgz#723d53548f148cd35aa35370d335697940b17b51"
-  integrity sha512-6SnCjkDBiSc6HzSF60mSWSC/UlnEQ4zQlGmTEsXNf3lOKHPbeb+nDJgRWJRQNeTp8d5kBahRxk4AQtNMCy3PXw==
+ms-alganews-sdk@1.9.2:
+  version "1.9.2"
+  resolved "https://registry.yarnpkg.com/ms-alganews-sdk/-/ms-alganews-sdk-1.9.2.tgz#9d4aca196ae3e65c28262cad69238f589fe06280"
+  integrity sha512-8IEBINGgf/nebogevckY0nU/F4tVLb86F1yqlwTBwwjcvb+vnqD4U1flgmbaG8rRwyvOBzM6xepCixbuU1Hkfg==
   dependencies:
     axios "^1.1.3"
     uuid "^9.0.0"
