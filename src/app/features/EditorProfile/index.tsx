@@ -1,8 +1,8 @@
+import { User, UserService } from "ms-alganews-sdk";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+
 import { getEditorDescription } from "../../../core/utils/getEditorDescription";
-import { User } from "../../../sdk/@types";
-import { UserService } from "../../../sdk/services/UserService";
 import { FieldDescriptor } from "../../components/FieldDescriptor";
 import { ProgressBar } from "../../components/ProgressBar";
 import { ValueDescriptor } from "../../components/ValueDescriptor";

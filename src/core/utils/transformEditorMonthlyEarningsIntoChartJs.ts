@@ -1,7 +1,8 @@
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { Metric } from "ms-alganews-sdk";
+
 import { ChartProps } from "../../app/components/Chart";
-import { Metric } from "../../sdk/@types";
 
 export function transformEditorMonthlyEarningsIntoChartJs(
   editorEarnings: Metric.EditorMonthlyEarnings

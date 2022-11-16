@@ -1,14 +1,14 @@
+import { Post, PostService } from "ms-alganews-sdk";
 import { useEffect, useState } from "react";
+
 import { withBoundary } from "../../../core/hoc/withBoundary";
-import { Post } from "../../../sdk/@types";
 import { Button } from "../Button";
+import { Loading } from "../Loading";
 import { MarkdownEditor } from "../MarkdownEditor";
 
 import { confirm } from "../../../core/utils/confitm";
 import { info } from "../../../core/utils/info";
 import modal from "../../../core/utils/modal";
-import { PostService } from "../../../sdk/services/PostService";
-import { Loading } from "../Loading";
 import { Actions, Content, Heading, Image, Title, Wrapper } from "./styles";
 
 interface PostPreviewProps {

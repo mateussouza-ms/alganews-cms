@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
+import { User, UserService } from "ms-alganews-sdk";
+
 import { getEditorDescription } from "../../../core/utils/getEditorDescription";
-import { User } from "../../../sdk/@types";
-import { UserService } from "../../../sdk/services/UserService";
 import { Profile } from "../../components/Profile";
 
 import { Wrapper } from "./styles";

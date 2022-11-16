@@ -1,9 +1,10 @@
+import { PostService } from "ms-alganews-sdk";
 import { FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Tag } from "react-tag-input";
+
 import { countWordsInMarkdown } from "../../../core/utils/countWordsInMarkdown";
 import { info } from "../../../core/utils/info";
-import { PostService } from "../../../sdk/services/PostService";
 import { Button } from "../../components/Button";
 import { ImageUpload } from "../../components/ImageUpload";
 import { Input } from "../../components/Input";

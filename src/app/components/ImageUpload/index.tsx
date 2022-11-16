@@ -1,7 +1,7 @@
 import { mdiDelete, mdiUpload } from "@mdi/js";
 import Icon from "@mdi/react";
+import { FileService } from "ms-alganews-sdk";
 import { ChangeEvent, useEffect, useState } from "react";
-import { FileService } from "../../../sdk/services/FileService";
 import { Button } from "../Button";
 import { Loading } from "../Loading";
 import * as StyledImageUpload from "./styles";

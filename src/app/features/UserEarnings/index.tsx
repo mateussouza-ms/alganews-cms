@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
+import { User, UserService } from "ms-alganews-sdk";
 import { withBoundary } from "../../../core/hoc/withBoundary";
-import { User } from "../../../sdk/@types";
-import { UserService } from "../../../sdk/services/UserService";
 import { ValueDescriptor } from "../../components/ValueDescriptor";
 
 import { Wrapper } from "./styles";

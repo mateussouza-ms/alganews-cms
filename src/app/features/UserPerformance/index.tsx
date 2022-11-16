@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
+import { MetricService } from "ms-alganews-sdk";
 import { withBoundary } from "../../../core/hoc/withBoundary";
 import { transformEditorMonthlyEarningsIntoChartJs } from "../../../core/utils/transformEditorMonthlyEarningsIntoChartJs";
-import { MetricService } from "../../../sdk/services/MetricService";
 import { Chart, ChartProps } from "../../components/Chart";
 
 function UserPerformanceComponent() {
