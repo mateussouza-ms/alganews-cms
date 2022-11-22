@@ -1,26 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-import { User, UserService } from "ms-alganews-sdk";
 import { withBoundary } from "../../../core/hoc/withBoundary";
 import { ValueDescriptor } from "../../components/ValueDescriptor";
 
+import { useUser } from "../../../core/hooks/useUser";
 import { Wrapper } from "./styles";
 
 export function UserEarningsComponent() {
-  const [user, setUser] = useState<User.Detailed>();
-  const [error, setError] = useState<Error>();
+  const { user, fetchDetailedUser } = useUser();
 
   useEffect(() => {
-    UserService.getDetailedUser(7)
-      .then(setUser)
-      .catch((err) => setError(new Error(err.message)));
-  }, []);
-
-  if (error) {
-    throw error;
-  }
+    fetchDetailedUser(7);
+  }, [fetchDetailedUser]);
 
   if (!user) {
     return (
