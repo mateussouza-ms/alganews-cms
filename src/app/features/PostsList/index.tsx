@@ -126,7 +126,7 @@ export function PostsListComponent() {
   useEffect(() => {
     fetchPosts({
       page,
-      size: 2,
+      size: 5,
       showAll: true,
       sort: ["createdAt", "desc"],
     });

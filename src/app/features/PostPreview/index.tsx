@@ -1,13 +1,12 @@
-import { Post, PostService } from "ms-alganews-sdk";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { withBoundary } from "../../../core/hoc/withBoundary";
 import { Button } from "../../components/Button";
 import { Loading } from "../../components/Loading";
 import { MarkdownEditor } from "../../components/MarkdownEditor";
 
+import { useSinglePost } from "../../../core/hooks/useSinglePost";
 import { confirm } from "../../../core/utils/confitm";
-import { info } from "../../../core/utils/info";
 import modal from "../../../core/utils/modal";
 import { Actions, Content, Heading, Image, Title, Wrapper } from "./styles";
 
@@ -16,16 +15,10 @@ interface PostPreviewProps {
 }
 
 function PostPreview({ postId }: PostPreviewProps) {
-  const [post, setPost] = useState<Post.Detailed>();
-  const [isLoadingPosts, setIsLoadingPosts] = useState(false);
+  const { isLoading, post, fetchPost, publishPost } = useSinglePost();
 
-  async function handlePublish() {
-    await PostService.publishExistingPost(postId);
-
-    info({
-      title: "Post publicado!",
-      content: "Você publicou o post com sucesso.",
-    });
+  function handlePublish() {
+    publishPost(postId);
   }
 
   function reopenModal() {
@@ -35,13 +28,10 @@ function PostPreview({ postId }: PostPreviewProps) {
   }
 
   useEffect(() => {
-    setIsLoadingPosts(true);
-    PostService.getExistingPost(postId)
-      .then(setPost)
-      .finally(() => setIsLoadingPosts(false));
-  }, [postId]);
+    fetchPost(postId);
+  }, [postId, fetchPost]);
 
-  if (isLoadingPosts) {
+  if (isLoading) {
     return <Loading show />;
   }
 
