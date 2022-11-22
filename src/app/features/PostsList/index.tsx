@@ -1,13 +1,14 @@
 import { mdiOpenInNew } from "@mdi/js";
 import Icon from "@mdi/react";
 import { format } from "date-fns";
-import { Post, PostService } from "ms-alganews-sdk";
+import { Post } from "ms-alganews-sdk";
 import { useEffect, useMemo, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { Column, usePagination, useTable } from "react-table";
 
 import { withBoundary } from "../../../core/hoc/withBoundary";
+import { usePosts } from "../../../core/hooks/usePosts";
 import modal from "../../../core/utils/modal";
 import { Loading } from "../../components/Loading";
 import PostPreview from "../../components/PostPreview";
@@ -15,10 +16,8 @@ import { PostTitleLink } from "../../components/PostTitleLink";
 import { Table } from "../../components/Table";
 
 export function PostsListComponent() {
-  const [posts, setPosts] = useState<Post.Paginated>();
-  const [error, setError] = useState<Error>();
   const [page, setPage] = useState(0);
-  const [isLoadingData, setIsLoadingData] = useState(false);
+  const { loading, fetchPosts, paginatedPosts } = usePosts();
 
   const columns = useMemo<Column<Post.Summary>[]>(
     () => [
@@ -115,33 +114,25 @@ export function PostsListComponent() {
 
   const instance = useTable<Post.Summary>(
     {
-      data: posts?.content || [],
+      data: paginatedPosts?.content || [],
       columns,
       manualPagination: true,
       initialState: { pageIndex: 0 },
-      pageCount: posts?.totalPages,
+      pageCount: paginatedPosts?.totalPages,
     },
     usePagination
   );
 
   useEffect(() => {
-    setIsLoadingData(true);
-    PostService.getAllPosts({
-      page: page,
-      size: 7,
+    fetchPosts({
+      page,
+      size: 2,
       showAll: true,
       sort: ["createdAt", "desc"],
-    })
-      .then(setPosts)
-      .catch((err) => setError(new Error(err.message)))
-      .finally(() => setIsLoadingData(false));
-  }, [page]);
+    });
+  }, [page, fetchPosts]);
 
-  if (error) {
-    throw error;
-  }
-
-  if (!posts) {
+  if (!paginatedPosts) {
     return (
       <div>
         <Skeleton height={32} />
@@ -154,7 +145,7 @@ export function PostsListComponent() {
 
   return (
     <>
-      <Loading show={isLoadingData} />
+      <Loading show={loading} />
       <Table<Post.Summary> instance={instance} onPaginate={setPage} />
     </>
   );
