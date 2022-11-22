@@ -3,11 +3,12 @@ import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectPaginatedPosts } from "../selectors/selectPaginatedPosts";
 import { selectPostsFetching } from "../selectors/selectPostsFetching";
+import { AppDispatch } from "../store";
 
 import * as PostsActions from "../store/PostSlice";
 
 export function usePosts() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const paginatedPosts = useSelector(selectPaginatedPosts);
   const loading = useSelector(selectPostsFetching);

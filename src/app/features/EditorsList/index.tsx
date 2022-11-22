@@ -1,22 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-
-import { User, UserService } from "ms-alganews-sdk";
 
 import { getEditorDescription } from "../../../core/utils/getEditorDescription";
 import { Profile } from "../../components/Profile";
 
+import { useEditors } from "../../../core/hooks/useEditors";
 import { Wrapper } from "./styles";
 
 export function EditorsList() {
-  const [editors, setEditors] = useState<User.EditorSummary[]>([]);
+  const { editorsList, fetchAllEditors } = useEditors();
 
   useEffect(() => {
-    UserService.getAllEditors().then(setEditors);
-  }, []);
+    fetchAllEditors();
+  }, [fetchAllEditors]);
 
-  if (!editors.length) {
+  if (!editorsList.length) {
     return (
       <Wrapper>
         {Array.from(new Array(10)).map((_, i) => (
@@ -28,7 +27,7 @@ export function EditorsList() {
 
   return (
     <Wrapper>
-      {editors.map((editor) => (
+      {editorsList.map((editor) => (
         <Profile
           key={editor.id}
           editorId={editor.id}
