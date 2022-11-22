@@ -1,6 +1,6 @@
-import { User, UserService } from "ms-alganews-sdk";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useSingleEditor } from "../../../core/hooks/useSingleEditor";
 
 import { getEditorDescription } from "../../../core/utils/getEditorDescription";
 import { FieldDescriptor } from "../../components/FieldDescriptor";
@@ -25,15 +25,15 @@ interface EditorProfileProps {
   hidePersonalData?: boolean;
 }
 export function EditorProfile({ hidePersonalData }: EditorProfileProps) {
-  const [editor, setEditor] = useState<User.EditorDetailed>();
+  const { editor, fetchEditor } = useSingleEditor();
 
   const { id } = useParams();
 
   useEffect(() => {
     if (!id) return;
 
-    UserService.getExistingEditor(Number(id)).then(setEditor);
-  }, [id]);
+    fetchEditor(Number(id));
+  }, [id, fetchEditor]);
 
   if (!editor) {
     return null;
