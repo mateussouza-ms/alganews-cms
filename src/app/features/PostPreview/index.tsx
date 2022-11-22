@@ -2,9 +2,9 @@ import { Post, PostService } from "ms-alganews-sdk";
 import { useEffect, useState } from "react";
 
 import { withBoundary } from "../../../core/hoc/withBoundary";
-import { Button } from "../Button";
-import { Loading } from "../Loading";
-import { MarkdownEditor } from "../MarkdownEditor";
+import { Button } from "../../components/Button";
+import { Loading } from "../../components/Loading";
+import { MarkdownEditor } from "../../components/MarkdownEditor";
 
 import { confirm } from "../../../core/utils/confitm";
 import { info } from "../../../core/utils/info";

@@ -11,9 +11,9 @@ import { withBoundary } from "../../../core/hoc/withBoundary";
 import { usePosts } from "../../../core/hooks/usePosts";
 import modal from "../../../core/utils/modal";
 import { Loading } from "../../components/Loading";
-import PostPreview from "../../components/PostPreview";
 import { PostTitleLink } from "../../components/PostTitleLink";
 import { Table } from "../../components/Table";
+import PostPreview from "../PostPreview";
 
 export function PostsListComponent() {
   const [page, setPage] = useState(0);
